@@ -5,7 +5,6 @@
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 8080;
-const utility = require('./utility');
 const bodyParser = require('body-parser');
 const storeFile = "./User.json";
 const busboy = require('connect-busboy');
@@ -24,16 +23,15 @@ app.use(bodyParser.json());
 // ==============================================
 
 app.use(busboy());
-app.route('/upload')
+app.route('/static/upload')
     .post(function (req, res, next) {
 
         var fstream;
         req.pipe(req.busboy);
         req.busboy.on('file', function (fieldname, file, filename) {
             console.log("Uploading: " + filename);
-
             //Path where image will be uploaded
-            fstream = fs.createWriteStream(__dirname + '/img/' + filename);
+            fstream = fs.createWriteStream(__dirname + '/public/img/' + filename);
             file.pipe(fstream);
             fstream.on('close', function () {
                 console.log("Upload Finished of " + filename);
@@ -41,21 +39,6 @@ app.route('/upload')
             });
         });
     });
-app.post('/upload', function (req, res) {
-    if (!req.files)
-        return res.status(400).send('No files were uploaded.');
-
-    // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-    let sampleFile = req.files.sampleFile;
-
-    // Use the mv() method to place the file somewhere on your server
-    sampleFile.mv('/public/img/filename.jpg', function (err) {
-        if (err)
-            return res.status(500).send(err);
-
-        res.send('File uploaded!');
-    });
-});
 
 
 // sample route with a route the way we're used to seeing it
