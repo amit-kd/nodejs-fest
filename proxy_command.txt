@@ -1,2 +1,3 @@
 npm config set proxy http://proxy.company.com:8080
 npm config set https-proxy http://proxy.company.com:8080
+https://medium.com/@spiromifsud/deploying-an-amazon-ec2-build-server-for-reactjs-with-jenkins-and-github-3195d2242aae
